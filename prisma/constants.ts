@@ -110,7 +110,7 @@ export const products = [
       "Куртка Rick Owens Geth — культовая вещь с архитектурным силуэтом, выполненная из плотного хлопка и кожи. Ассиметричная молния, расширенные плечи и удлинённый низ создают агрессивный футуристический стиль. Идеальна для монохромных total-black образов.",
 
     brandName: brands[0],
-    categoryName: categories[3],
+    categoryName: categories[2],
     images: [
       {
         url: "https://cdn-images.farfetch-contents.com/13/17/35/44/13173544_16144773_1000.jpg",
@@ -229,7 +229,7 @@ export const products = [
     description:
       "Undercover 85 Lab — лёгкая куртка-бомбер с вышивкой и психоделическим паттерном. Технический нейлон, контрастная подкладка и молнии в милитари-стиле создают выразительный урбанистический образ, идеально подходящий для арт-ориентированных луков.",
     brandName: brands[1],
-    categoryName: categories[3],
+    categoryName: categories[2],
     images: [
       {
         url: "https://cdn-images.farfetch-contents.com/30/61/90/99/30619099_59727972_1000.jpg",
@@ -249,7 +249,7 @@ export const products = [
     description:
       "Prada Re-Nylon Gabardine — куртка, объединяющая роскошь и технологичность. Выполнена из переработанного нейлона, украшена лаконичными деталями и логотипом-треугольником на груди. Лёгкая и практичная, идеально подходит для современного городского гардероба с акцентом на эко-осознанность.",
     brandName: brands[3],
-    categoryName: categories[3],
+    categoryName: categories[2],
     images: [
       {
         url: "https://cdn-images.farfetch-contents.com/25/17/64/11/25176411_55409288_1000.jpg",

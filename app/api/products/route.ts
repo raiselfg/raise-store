@@ -1,19 +1,19 @@
-import prisma from '@/shared/lib/prisma';
-import { NextResponse } from 'next/server';
+import prisma from "@/shared/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const categories = searchParams.get('categories');
-    const brands = searchParams.get('brands');
-    const sortBy = searchParams.get('sortBy');
+    const categories = searchParams.get("category");
+    const brands = searchParams.get("brand");
+    const sortBy = searchParams.get("sortBy");
 
-    console.log('Request params:', { categories, brands, sortBy });
+    console.log("Request params:", { categories, brands, sortBy });
 
     const where: any = {};
 
     if (categories) {
-      const categoryArray = categories.split(',');
+      const categoryArray = categories.split(",");
       where.category = {
         name: {
           in: categoryArray,
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     }
 
     if (brands) {
-      const brandArray = brands.split(',');
+      const brandArray = brands.split(",");
       where.brand = {
         name: {
           in: brandArray,
@@ -30,20 +30,25 @@ export async function GET(request: Request) {
       };
     }
 
-    let orderBy: any = { createdAt: 'desc' };
+    let orderBy: any = { createdAt: "desc" };
     if (sortBy) {
       switch (sortBy) {
-        case 'price-asc':
-          orderBy = { price: 'asc' };
+        case "price-asc":
+          orderBy = { price: "asc" };
           break;
-        case 'price-desc':
-          orderBy = { price: 'desc' };
+        case "price-desc":
+          orderBy = { price: "desc" };
           break;
-        case 'name':
-          orderBy = { name: 'asc' };
+        case "name-asc":
+          orderBy = { name: "asc" };
           break;
-        case 'newest':
-          orderBy = { createdAt: 'desc' };
+        case "name-desc":
+          orderBy = { name: "desc" };
+        case "newest":
+          orderBy = { createdAt: "desc" };
+          break;
+        case "oldest":
+          orderBy = { createdAt: "asc" };
           break;
       }
     }
@@ -65,13 +70,13 @@ export async function GET(request: Request) {
 
     return NextResponse.json(products);
   } catch (error: any) {
-    console.error('Error fetching products:', {
+    console.error("Error fetching products:", {
       message: error.message,
       stack: error.stack,
     });
     return NextResponse.json(
-      { error: 'Внутренняя ошибка сервера', details: error.message },
-      { status: 500 }
+      { error: "Внутренняя ошибка сервера", details: error.message },
+      { status: 500 },
     );
   }
 }

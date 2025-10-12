@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { formatPriceUSD } from '@/shared/lib/format-price';
+import { formatPriceUSD } from "@/shared/lib/format-price";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/components/ui/dialog';
+} from "@/shared/components/ui/dialog";
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/shared/components/ui/card';
+} from "@/shared/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -24,17 +24,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
-import { Button } from '../ui/button';
+} from "../ui/select";
+import { Button } from "../ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '../ui/carousel';
-import Image from 'next/image';
-import { ProductWithRelations } from '@/shared/types/product';
+} from "../ui/carousel";
+import Image from "next/image";
+import { ProductWithRelations } from "@/shared/types/product";
 
 interface ProductCardProps {
   product: ProductWithRelations;
@@ -70,7 +70,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                           src={img.url}
                           alt={img.id}
                           fill
-                          style={{ objectFit: 'contain' }}
+                          style={{ objectFit: "contain" }}
                           unoptimized={true}
                         />
                       </div>
@@ -105,8 +105,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                               disabled={prodSize.quantity < 1}
                               className={
                                 prodSize.quantity < 1
-                                  ? 'cursor-not-allowed bg-red-500/40'
-                                  : ''
+                                  ? "cursor-not-allowed bg-red-500/40"
+                                  : ""
                               }
                             >
                               <div className="flex gap-3">
