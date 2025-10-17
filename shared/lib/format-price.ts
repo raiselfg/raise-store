@@ -3,5 +3,5 @@ export const formatPriceUSD = (price: number): string => {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
-  }).format(price)
-}
+  }).format(price);
+};

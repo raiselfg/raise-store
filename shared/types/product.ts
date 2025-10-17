@@ -5,7 +5,7 @@ import {
   Category,
   ProductSize,
   Size,
-} from "@/app/generated/prisma";
+} from '@/app/generated/prisma';
 
 export type ProductWithRelations = Product & {
   images: ProductImage[];

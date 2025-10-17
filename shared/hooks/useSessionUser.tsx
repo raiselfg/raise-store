@@ -1,6 +1,6 @@
-import { User } from "@/app/generated/prisma";
-import { useState, useEffect } from "react";
-import { api } from "../lib/axios";
+import { User } from '@/app/generated/prisma';
+import { useState, useEffect } from 'react';
+import { api } from '../lib/axios';
 
 interface UseSessionResult {
   user: User | null;
@@ -17,11 +17,11 @@ export function useSessionUser(): UseSessionResult {
   async function fetchSession() {
     try {
       setLoading(true);
-      const data = (await api.get("/auth/session")).data;
+      const data = (await api.get('/auth/session')).data;
       setAuthenticated(data.authenticated);
       setUser(data.user);
     } catch (error) {
-      console.error("Ошибка при получении сессии:", error);
+      console.error('Ошибка при получении сессии:', error);
       setAuthenticated(false);
       setUser(null);
     } finally {

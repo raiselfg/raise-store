@@ -1,7 +1,6 @@
-// app/products/components/filter-checkbox.tsx
-"use client";
+'use client';
 
-import { Checkbox } from "@/shared/components/ui/checkbox";
+import { Checkbox } from '@/shared/components/ui/checkbox';
 
 interface FilterCheckboxProps {
   id: string;
@@ -30,7 +29,7 @@ export function FilterCheckbox({
       <label
         htmlFor={id}
         className={`text-sm font-medium leading-none ${
-          disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+          disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >
         {label}

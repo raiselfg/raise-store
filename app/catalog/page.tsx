@@ -1,43 +1,38 @@
-// app/products/page.tsx
-import { FilterSidebar } from "@/shared/components/filters/filter-sidebar";
-import prisma from "@/shared/lib/prisma";
-import { Suspense } from "react";
-import ProductsLoading from "./loading";
-import { ProductList } from "@/shared/components/filters/product-list";
-import { Container } from "@/shared/components/ui/container";
+import { FilterSidebar } from '@/shared/components/filters/filter-sidebar';
+import prisma from '@/shared/lib/prisma';
+import { Suspense } from 'react';
+import ProductsLoading from './loading';
+import { ProductList } from '@/shared/components/filters/product-list';
+import { Container } from '@/shared/components/ui/container';
 
 interface ProductsPageProps {
   searchParams: Promise<{
     brands?: string;
     categories?: string;
-    page?: string;
+    sortBy?: string;
   }>;
 }
 
 export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
-  // Разрешаем searchParams (Next.js 15+)
   const params = await searchParams;
 
-  // Параллельно получаем данные для фильтров и продуктов
   const [brands, categories, initialProducts] = await Promise.all([
-    prisma.brand.findMany({ orderBy: { name: "asc" } }),
-    prisma.category.findMany({ orderBy: { name: "asc" } }),
-    getFilteredProducts(params), // Функция для фильтрации
+    prisma.brand.findMany({ orderBy: { name: 'asc' } }),
+    prisma.category.findMany({ orderBy: { name: 'asc' } }),
+    getFilteredProducts(params),
   ]);
 
   return (
     <Container>
       <div className="flex flex-col gap-4">
-        {/* Клиентский компонент фильтров */}
         <FilterSidebar
           brands={brands}
           categories={categories}
           currentParams={params}
         />
 
-        {/* Серверный компонент продуктов */}
         <div>
           <Suspense fallback={<ProductsLoading />}>
             <ProductList
@@ -51,23 +46,45 @@ export default async function ProductsPage({
   );
 }
 
-// Функция для получения отфильтрованных продуктов
 async function getFilteredProducts(params: {
   brands?: string;
   categories?: string;
+  sortBy?: string;
 }) {
   const whereConditions = [];
-
+  let orderByCondition;
   if (params.brands) {
     whereConditions.push({
-      brandId: { in: params.brands.split(",") },
+      brandId: { in: params.brands.split(',') },
     });
   }
 
   if (params.categories) {
     whereConditions.push({
-      categoryId: { in: params.categories.split(",") },
+      categoryId: { in: params.categories.split(',') },
     });
+  }
+
+  if (params.sortBy) {
+    switch (params.sortBy) {
+      case 'price-asc':
+        orderByCondition = { price: 'asc' };
+        break;
+      case 'price-desc':
+        orderByCondition = { price: 'desc' };
+        break;
+      case 'name-asc':
+        orderByCondition = { name: 'asc' };
+        break;
+      case 'name-desc':
+        orderByCondition = { name: 'desc' };
+      case 'newest':
+        orderByCondition = { createdAt: 'desc' };
+        break;
+      case 'oldest':
+        orderByCondition = { createdAt: 'asc' };
+        break;
+    }
   }
 
   return await prisma.product.findMany({
@@ -82,6 +99,6 @@ async function getFilteredProducts(params: {
         },
       },
     },
-    orderBy: { name: "asc" },
+    orderBy: orderByCondition as object,
   });
 }

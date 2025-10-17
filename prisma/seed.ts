@@ -1,5 +1,5 @@
-import { PrismaClient } from "@/app/generated/prisma";
-import { brands, categories, products, sizes } from "./constants";
+import { PrismaClient } from '@/app/generated/prisma';
+import { brands, categories, products, sizes } from './constants';
 
 const prisma = new PrismaClient();
 
@@ -20,7 +20,7 @@ interface ProductInput {
 
 async function createProductSizes(
   productId: string,
-  productSizes: ProductSizeInput[],
+  productSizes: ProductSizeInput[]
 ) {
   await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -40,7 +40,7 @@ async function createProductSizes(
 }
 
 async function up() {
-  console.log("Starting seed...");
+  console.log('Starting seed...');
 
   await prisma.category.createMany({
     data: categories,
@@ -54,13 +54,13 @@ async function up() {
     data: sizes,
   });
 
-  console.log("Basic entities created");
+  console.log('Basic entities created');
 
   const dbBrands = await prisma.brand.findMany();
   const dbCategories = await prisma.category.findMany();
 
   console.log(
-    `Found ${dbBrands.length} brands, ${dbCategories.length} categories`,
+    `Found ${dbBrands.length} brands, ${dbCategories.length} categories`
   );
 
   const createdProducts = [];
@@ -105,11 +105,11 @@ async function up() {
     }
   }
 
-  console.log("Seed completed successfully");
+  console.log('Seed completed successfully');
 }
 
 async function down() {
-  console.log("Cleaning database...");
+  console.log('Cleaning database...');
 
   await prisma.cartItem.deleteMany();
   await prisma.favoriteItem.deleteMany();
@@ -124,17 +124,17 @@ async function down() {
   await prisma.favorite.deleteMany();
   await prisma.order.deleteMany();
 
-  console.log("Database cleaned");
+  console.log('Database cleaned');
 }
 
 async function main() {
   try {
-    console.log("Starting seed process...");
+    console.log('Starting seed process...');
     await down();
     await up();
-    console.log("Seed finished successfully");
+    console.log('Seed finished successfully');
   } catch (e) {
-    console.error("Seed failed:", e);
+    console.error('Seed failed:', e);
     throw e;
   }
 }
@@ -144,7 +144,7 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error("Fatal error:", e);
+    console.error('Fatal error:', e);
     await prisma.$disconnect();
     process.exit(1);
   });
