@@ -375,7 +375,7 @@ export function FilterSidebar({
         onValueChange={handleSortChange}
         disabled={isPending}
       >
-        <SelectTrigger className="w-[280px]">
+        <SelectTrigger className="w-max">
           <SelectValue placeholder="Select sorting" />
         </SelectTrigger>
         <SelectContent>

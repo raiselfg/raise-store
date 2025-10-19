@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
 
 export const CredentialsForm = () => {
-  const [isHidden, setIsHidden] = useState<boolean>(false);
+  const [isHidden, setIsHidden] = useState<boolean>(true);
 
   const form = useForm<credentialsType>({
     resolver: zodResolver(credentialsSchema),

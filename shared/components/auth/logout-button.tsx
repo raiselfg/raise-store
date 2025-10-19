@@ -4,5 +4,9 @@ import { logout } from '@/shared/lib/auth-client';
 import { Button } from '../ui/button';
 
 export const LogoutButton = () => {
-  return <Button onClick={() => logout()}>Logout</Button>;
+  return (
+    <Button className="w-full" onClick={() => logout()}>
+      Logout
+    </Button>
+  );
 };
