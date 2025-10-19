@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import prisma from '@/shared/lib/prisma';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   const session = await auth();
@@ -20,8 +21,15 @@ export async function GET() {
     return Response.json({ authenticated: false, user: null }, { status: 200 });
   }
 
-  return Response.json({
+  const response = NextResponse.json({
     authenticated: true,
     user,
   });
+
+  response.headers.set(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=60'
+  );
+
+  return response;
 }

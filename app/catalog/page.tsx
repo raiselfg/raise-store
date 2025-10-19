@@ -4,6 +4,9 @@ import { Suspense } from 'react';
 import ProductsLoading from './loading';
 import { ProductList } from '@/shared/components/filters/product-list';
 import { Container } from '@/shared/components/ui/container';
+import { api } from '@/shared/lib/axios';
+import { Brand, Category } from '../generated/prisma';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -19,19 +22,21 @@ export default async function ProductsPage({
   const params = await searchParams;
 
   const [brands, categories, initialProducts] = await Promise.all([
-    prisma.brand.findMany({ orderBy: { name: 'asc' } }),
-    prisma.category.findMany({ orderBy: { name: 'asc' } }),
+    api.get<Brand[]>('brands'),
+    api.get<Category[]>('categories'),
     getFilteredProducts(params),
   ]);
 
   return (
     <Container>
-      <div className="flex flex-col gap-4">
-        <FilterSidebar
-          brands={brands}
-          categories={categories}
-          currentParams={params}
-        />
+      <div className="flex flex-col">
+        <Suspense>
+          <FilterSidebar
+            brands={brands.data}
+            categories={categories.data}
+            currentParams={params}
+          />
+        </Suspense>
 
         <div>
           <Suspense fallback={<ProductsLoading />}>

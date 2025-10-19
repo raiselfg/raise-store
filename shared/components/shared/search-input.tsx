@@ -6,7 +6,7 @@ import { useClickAway, useDebounce } from 'react-use';
 import { ProductWithRelations } from '@/shared/types/product';
 import Link from 'next/link';
 import { formatPriceUSD } from '@/shared/lib/format-price';
-import Image from 'next/image';
+import { api } from '@/shared/lib/axios';
 
 export const SearchInput = () => {
   const [focused, setFocused] = useState<boolean>(false);
@@ -28,11 +28,11 @@ export const SearchInput = () => {
 
       setLoading(true);
       try {
-        const response = await fetch(
-          `/api/search?q=${encodeURIComponent(queryValue)}`
+        const response = await api.get(
+          `search?q=${encodeURIComponent(queryValue)}`
         );
-        const data = await response.json();
-        setProducts(data);
+
+        setProducts(response.data);
       } catch (error) {
         console.error('Search failed:', error);
         setProducts([]);
@@ -43,6 +43,11 @@ export const SearchInput = () => {
     350,
     [queryValue]
   );
+
+  const handleLinkClick = () => {
+    setFocused(false);
+    setQueryValue('');
+  };
 
   return (
     <div ref={searchRef} className="relative w-full">
@@ -61,9 +66,10 @@ export const SearchInput = () => {
             <div className="flex flex-col gap-2">
               {products.map((product) => (
                 <Link
-                  href=""
+                  onClick={handleLinkClick}
+                  href={`catalog/product/${product.id}`}
                   key={product.id}
-                  className="flex gap-2 items-center rounded-xl hover:bg-background/10"
+                  className="flex gap-2 items-center rounded-xl p-2 hover:bg-background/20"
                 >
                   <img
                     src={product.images[0].url}

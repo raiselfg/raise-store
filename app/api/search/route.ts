@@ -30,7 +30,14 @@ export async function GET(request: NextRequest) {
       orderBy: { name: 'asc' },
     });
 
-    return NextResponse.json(products);
+    const response = NextResponse.json(products);
+
+    response.headers.set(
+      'Cache-Control',
+      'public, s-maxage=300, stale-while-revalidate=60'
+    );
+
+    return response;
   } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json([], { status: 500 });
